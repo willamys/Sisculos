@@ -11,18 +11,31 @@ class Curriculo {
 	String formacao
 	String experiencia
 	String datanasc
-	Endereco endereco
+	//Endereco endereco
+	//static embedded = ['endereco']
+	String bairro
+	String cidade
+	String complemento
+	String endereco
+	String uf
+	String cep
 	Usuario usuario
 
 	static constraints = {
 		nome(blank: false)
-		cpf(blank: false,size: 14..14)
+		cpf(unique: true, blank: false,size: 14..14)
 		rg(blank: false)
+		datanasc(blank: false,size: 10..10)
 		sexo inList:["M", "F"]
+		cep(blank: false, size: 9..9)
+		endereco(blank: false)
+		complemento(blank: false)
+		bairro(blank: false)
+		cidade(blank: false)
+		uf(blank: false,size:2..2)
 		email(email: true, blank: false)
 		telefone(blank: false,size: 14..14)
 		formacao(blank: false)
 		experiencia(blank: false)
-		datanasc(blank: false,size: 10..10)
 	}
 }

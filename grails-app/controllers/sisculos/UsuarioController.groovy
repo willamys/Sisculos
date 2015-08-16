@@ -13,20 +13,20 @@ class UsuarioController {
 	def initial = {}
 
 	def authenticate = {
-		//consulta se o login e senha existem no banco de dados
-		//def usuario_login =  Usuario.findByLoginAndSenha(params.login, params.senha)
-		//verifica se houve retorno na consulta para autenticar no sistema
-		//Usuario permissao = Usuario.findByLogin(usuario_login.login)
-
-		Usuario usuario_login =  Usuario.findByLoginAndSenha(params.login, params.senha)
-
-		if(usuario_login!= null){
-			session.user = usuario_login
-			flash.message = "Oi, ${usuario_login.login}!"
-			// redirect(action:"login")
-			redirect(controller:'usuario',action:'initial')
+		
+		if(!(params.equals("") || params == null)){
+			Usuario usuario_login =  Usuario.findByLoginAndSenha(params.login, params.senha)
+			//consulta se o login e senha existem no banco de dados
+			//verifica se houve retorno na consulta para autenticar no sistema
+			if(usuario_login!= null){
+				session.user = usuario_login
+				flash.message = "Oi, ${usuario_login.login}!"
+				redirect(controller:'usuario',action:'initial')
+			}else{
+				flash.message = "Desculpe, ${params.login}. Tente Novamente."
+				redirect(controller:'usuario',action:'login')
+			}
 		}else{
-			flash.message = "Desculpe, ${params.login}. Tente Novamente."
 			redirect(controller:'usuario',action:'login')
 		}
 	}
@@ -81,7 +81,7 @@ class UsuarioController {
 			respond new Usuario(params)
 		}else{
 			flash.message = "Desculpe, o usuario nao tem permissao."
-			redirect(controller:'usuario',action:'index')
+			redirect(controller:'usuario',action:'initial')
 		}
 	}
 

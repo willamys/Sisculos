@@ -1,6 +1,5 @@
 <%@ page import="sisculos.Curriculo" %>
-
-
+<%@ page import="sisculos.Usuario" %>
 
 <div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'nome', 'error')} required">
 	<label for="nome">
@@ -26,6 +25,15 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="rg" required="" value="${curriculoInstance?.rg}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'sexo', 'error')} required">
+	<label for="sexo">
+		<g:message code="curriculo.sexo.label" default="Sexo" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select name="sexo" from="${curriculoInstance.constraints.sexo.inList}" required="" value="${curriculoInstance?.sexo}" valueMessagePrefix="curriculo.sexo"/>
 
 </div>
 
@@ -73,31 +81,61 @@
 	<g:textField name="datanasc" maxlength="10" required="" value="${curriculoInstance?.datanasc}"/>
 
 </div>
+<%--<fieldset class="embedded"><legend><g:message code="curriculo.endereco.label" default="Endereco" /></legend>--%>
 
-<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'sexo', 'error')} required">
-	<label for="sexo">
-		<g:message code="curriculo.sexo.label" default="Sexo" />
+
+
+
+<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'cep', 'error')} required">
+	<label for="endereco.cep">
+		<g:message code="curriculo.endereco.cep.label" default="Cep" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="sexo" from="${curriculoInstance.constraints.sexo.inList}" required="" value="${curriculoInstance?.sexo}" valueMessagePrefix="curriculo.sexo"/>
-
+		<input type="text" name="cep" onblur="greetName(this.value)"
+		required="" id="cep" maxlength="9" size="9"
+		value="${curriculoInstance?.cep}" />
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'endereco', 'error')} required">
-	<label for="endereco">
-		<g:message code="curriculo.endereco.label" default="Endereco" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="endereco" name="endereco.id" from="${sisculos.Endereco.list()}" optionKey="id" required="" value="${curriculoInstance?.endereco?.id}" class="many-to-one"/>
+<%--div do ajax--%>
 
+<%--fim div ajax--%>
+
+<script>
+			<%--chama o método inicial com o form cep vazio--%>
+            <g:remoteFunction controller="curriculo" action="initialCurriculo" update="form_cep"/>
+            	function greetName(cep) {
+			<%--chama o método consultacep para efetuar a pesquisa e retorna com o fomcep preenchido--%>
+               	 <g:remoteFunction controller="curriculo" action="consultaCEP" update="form_cep" params="'cep='+cep"/>
+                }</script>
+
+<div id="form_cep">
+<%--<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'endereco.version', 'error')} required">--%>
+<%--	<label for="endereco.version">--%>
+<%--		<g:message code="curriculo.endereco.version.label" default="Version" />--%>
+<%--		<span class="required-indicator">*</span>--%>
+<%--	</label>--%>
+<%--	<g:field name="version" type="number" value="${enderecoInstance.version}" required=""/>--%>
+<%----%>
+<%--</div>--%>
 </div>
-
+<% Usuario usuario_login = session.user %>
+				<g:if test="${usuario_login.permissao == 0}">
 <div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'usuario', 'error')} required">
 	<label for="usuario">
 		<g:message code="curriculo.usuario.label" default="Usuario" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="usuario" name="usuario.id" from="${sisculos.Usuario.list()}" optionKey="id" required="" value="${curriculoInstance?.usuario?.id}" class="many-to-one"/>
-
 </div>
+</g:if>
+<g:else>
+<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'usuario', 'error')} required">
+	<label for="usuario">
+		<g:message code="curriculo.usuario.label" default="Usuario" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="usuario" name="usuario.id" from="${sisculos.Usuario.findAllWhere(login: session.user.login)}" optionKey="id" required="" value="${curriculoInstance?.usuario?.id}" class="many-to-one"/>
+</div>
+</g:else>
+
 
