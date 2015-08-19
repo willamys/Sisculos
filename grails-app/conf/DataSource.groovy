@@ -23,21 +23,18 @@ environments {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:postgresql://localhost:5432/sisculos?useUnicode=yes&characterEncoding=UTF-8"
-			//url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
         }
     }
     test {
         dataSource {
             dbCreate = "update"
             url = "jdbc:postgresql://localhost:5432/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
-			//url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
         }
     }
     production {
         dataSource {
             dbCreate = "update"
             url = "jdbc:postgresql://localhost:5432/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
-			//url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
 //            properties {
 //               // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
 //               jmxEnabled = true
