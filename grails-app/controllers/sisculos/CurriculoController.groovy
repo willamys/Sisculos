@@ -41,10 +41,10 @@ class CurriculoController {
 	def index(Integer max) {
 		Usuario usuario_login = session.user
 		if(usuario_login != null){
-			if(usuario_login.permissao == 0 ){
+			if(usuario_login.permissao == 0 || usuario_login.permissao == 2){
 				params.max = Math.min(max ?: 10, 100)
 				respond Curriculo.list(params), model:[curriculoInstanceCount: Curriculo.count()]
-			}else if(usuario_login.permissao == 1 || usuario_login.permissao == 2){
+			}else if(usuario_login.permissao == 1 ){
 				Curriculo teste = usuario_login ? Curriculo.findByUsuario(usuario_login) : []
 				if(teste != null){
 					respond Curriculo.findAllWhere(usuario: teste.usuario), model:[curriculoInstanceCount: Curriculo.count()]
@@ -61,56 +61,101 @@ class CurriculoController {
 	}
 
 	def create() {
-		respond new Curriculo(params)
+		Usuario usuario_login = session.user
+		if(usuario_login != null){
+			if(usuario_login.permissao == 0 || usuario_login.permissao == 1){
+				respond new Curriculo(params)
+			}else{
+				flash.message = "Desculpe, o usuario nao tem permissao."
+				redirect(controller:'curriculo',action:'index')
+			}
+		}else{
+			flash.message = "Desculpe, precisa estar autenticado no sistema."
+			redirect(controller:'curriculo',action:'index')
+		}
 	}
 
 	@Transactional
 	def save(Curriculo curriculoInstance) {
-		if (curriculoInstance == null) {
-			notFound()
-			return
-		}
+		Usuario usuario_login = session.user
+		if(usuario_login != null){
+			if(usuario_login.permissao == 0 || usuario_login.permissao == 1){
+				if (curriculoInstance == null) {
+					notFound()
+					return
+				}
 
-		if (curriculoInstance.hasErrors()) {
-			respond curriculoInstance.errors, view:'create'
-			return
-		}
+				if (curriculoInstance.hasErrors()) {
+					respond curriculoInstance.errors, view:'create'
+					return
+				}
 
-		curriculoInstance.save flush:true
+				curriculoInstance.save flush:true
 
-		request.withFormat {
-			form multipartForm {
-				flash.message = message(code: 'default.created.message', args: [message(code: 'curriculo.label', default: 'Curriculo'), curriculoInstance.id])
-				redirect curriculoInstance
+				request.withFormat {
+					form multipartForm {
+						flash.message = message(code: 'default.created.message', args: [message(code: 'curriculo.label', default: 'Curriculo'), curriculoInstance.id])
+						redirect curriculoInstance
+					}
+					'*' { respond curriculoInstance, [status: CREATED] }
+				}
+			}else{
+				flash.message = "Desculpe, o usuario nao tem permissao."
+				redirect(controller:'curriculo',action:'index')
 			}
-			'*' { respond curriculoInstance, [status: CREATED] }
+		}else{
+			flash.message = "Desculpe, precisa estar autenticado no sistema."
+			redirect(controller:'curriculo',action:'index')
+
 		}
 	}
 
 	def edit(Curriculo curriculoInstance) {
-		respond curriculoInstance
+		Usuario usuario_login = session.user
+		if(usuario_login != null){
+			if(usuario_login.permissao == 0 || usuario_login.permissao == 1){
+				respond curriculoInstance
+			}else{
+				flash.message = "Desculpe, o usuario nao tem permissao."
+				redirect(controller:'curriculo',action:'index')
+			}
+		}else{
+			flash.message = "Desculpe, precisa estar autenticado no sistema."
+			redirect(controller:'curriculo',action:'index')
+
+		}
 	}
 
 	@Transactional
 	def update(Curriculo curriculoInstance) {
-		if (curriculoInstance == null) {
-			notFound()
-			return
-		}
+		Usuario usuario_login = session.user
+		if(usuario_login != null){
+			if(usuario_login.permissao == 0 || usuario_login.permissao == 1){
+				if (curriculoInstance == null) {
+					notFound()
+					return
+				}
+				if (curriculoInstance.hasErrors()) {
+					respond curriculoInstance.errors, view:'edit'
+					return
+				}
+				curriculoInstance.save flush:true
 
-		if (curriculoInstance.hasErrors()) {
-			respond curriculoInstance.errors, view:'edit'
-			return
-		}
-
-		curriculoInstance.save flush:true
-
-		request.withFormat {
-			form multipartForm {
-				flash.message = message(code: 'default.updated.message', args: [message(code: 'Curriculo.label', default: 'Curriculo'), curriculoInstance.id])
-				redirect curriculoInstance
+				request.withFormat {
+					form multipartForm {
+						flash.message = message(code: 'default.updated.message', args: [message(code: 'Curriculo.label', default: 'Curriculo'), curriculoInstance.id])
+						redirect curriculoInstance
+					}
+					'*'{ respond curriculoInstance, [status: OK] }
+				}
+			}else{
+				flash.message = "Desculpe, o usuario nao tem permissao."
+				redirect(controller:'curriculo',action:'index')
 			}
-			'*'{ respond curriculoInstance, [status: OK] }
+		}else{
+			flash.message = "Desculpe, precisa estar autenticado no sistema."
+			redirect(controller:'curriculo',action:'index')
+
 		}
 	}
 

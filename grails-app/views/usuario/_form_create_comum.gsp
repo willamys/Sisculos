@@ -23,9 +23,25 @@
 		<g:message code="usuario.permissao.label" default="Tipo de Usuário" />
 		<span class="required-indicator">*</span>
 	</label>
+<% Usuario usuario_login = session.user %>
+<g:if test="${usuario_login != null && usuario_login.permissao == 1}">
 	<g:select name="permissao" required="" value="${fieldValue(bean: usuarioInstance, field: "permissao")}"
+		from="${['1':'Aluno']}"
+		optionKey="key" optionValue="value"
+		noSelection="['':'Selecione o tipo de usuário -']" />
+</g:if>
+<g:elseif test="${usuario_login != null && usuario_login.permissao == 2}">
+<g:select name="permissao" required="" value="${fieldValue(bean: usuarioInstance, field: "permissao")}"
+		from="${['2':'Empresa']}"
+		optionKey="key" optionValue="value"
+		noSelection="['':'Selecione o tipo de usuário -']" />
+</g:elseif>
+<g:else>
+<g:select name="permissao" required="" value="${fieldValue(bean: usuarioInstance, field: "permissao")}"
 		from="${['1':'Aluno','2':'Empresa']}"
 		optionKey="key" optionValue="value"
 		noSelection="['':'Selecione o tipo de usuário -']" />
+</g:else>
+<%--		//<g:hiddenField name="permissao" value="${fieldValue(bean: usuarioInstance, field: "permissao")}"/>--%>
 </div>
 

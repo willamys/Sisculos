@@ -1,9 +1,11 @@
 dataSource {
     pooled = true
    // jmxExport = true
-	 dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
-	 driverClassName = "com.mysql.jdbc.Driver"
-	 username = "root"
+	 //dialect = "sisculos.ImprovedMySQLDialect" //mysql
+	 dialect = "org.hibernate.dialect.PostgreSQLDialect"
+	 //driverClassName = "com.mysql.jdbc.Driver" //mysql
+	 driverClassName = "org.postgresql.Driver"
+	 username = "postgres"
 	 password = "constantinopla"
 }
 hibernate {
@@ -20,25 +22,22 @@ environments {
     development {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
-			username = "root"
-			password = "constantinopla"
+            url = "jdbc:postgresql://localhost:5432/sisculos?useUnicode=yes&characterEncoding=UTF-8"
+			//url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
         }
     }
     test {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:mysql://localhost/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
-			username = "root"
-			password = "constantinopla"
+            url = "jdbc:postgresql://localhost:5432/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
+			//url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
         }
     }
     production {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:mysql://localhost/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
-			username = "root"
-			password = "constantinopla"
+            url = "jdbc:postgresql://localhost:5432/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
+			//url = "jdbc:mysql://localhost/sisculos?useUnicode=yes&characterEncoding=UTF-8"
 //            properties {
 //               // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
 //               jmxEnabled = true

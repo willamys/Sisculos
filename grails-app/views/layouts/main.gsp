@@ -24,10 +24,13 @@
 <body>
 	<div id="grailsLogo" role="banner">
 		<a href="#"><asset:image src="logoifce-2.png" alt="Curriculos IF" /></a>
+		<p align="right" style="padding-right: 10px;" ><g:if test="${session.user != null}"> Usuário:<b>${session.user.login}</b></g:if> </p>
 	</div>
 	<g:layoutBody />
-	<div class="footer" role="contentinfo">Desenvolvido por
-		Poneys&copy</div>
+	<div class="footer" role="contentinfo">
+		Desenvolvido por
+		Poneys&copy;
+		</div>
 	<div id="spinner" class="spinner" style="display: none;">
 		<g:message code="spinner.alt" default="Loading&hellip;" />
 	</div>

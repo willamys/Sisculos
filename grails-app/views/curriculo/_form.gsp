@@ -55,24 +55,6 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'formacao', 'error')} required">
-	<label for="formacao">
-		<g:message code="curriculo.formacao.label" default="Formacao" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="formacao" required="" value="${curriculoInstance?.formacao}"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'experiencia', 'error')} required">
-	<label for="experiencia">
-		<g:message code="curriculo.experiencia.label" default="Experiencia" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="experiencia" required="" value="${curriculoInstance?.experiencia}"/>
-
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'datanasc', 'error')} required">
 	<label for="datanasc">
 		<g:message code="curriculo.datanasc.label" default="Datanasc" />
@@ -118,8 +100,25 @@
 <%----%>
 <%--</div>--%>
 </div>
+<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'formacao', 'error')} required">
+	<label for="formacao">
+		<g:message code="curriculo.formacao.label" default="Formacao" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textArea name="formacao" required="" value="${curriculoInstance?.formacao}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'experiencia', 'error')} required">
+	<label for="experiencia">
+		<g:message code="curriculo.experiencia.label" default="Experiencia" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textArea name="experiencia" required="" value="${curriculoInstance?.experiencia}"/>
+
+</div>
 <% Usuario usuario_login = session.user %>
-				<g:if test="${usuario_login.permissao == 0}">
+<g:if test="${usuario_login.permissao == 0}">
 <div class="fieldcontain ${hasErrors(bean: curriculoInstance, field: 'usuario', 'error')} required">
 	<label for="usuario">
 		<g:message code="curriculo.usuario.label" default="Usuario" />

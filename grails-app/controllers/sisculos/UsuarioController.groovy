@@ -121,6 +121,7 @@ class UsuarioController {
 
 	def edit(Usuario usuarioInstance) {
 		respond usuarioInstance
+		
 	}
 
 	@Transactional
@@ -140,7 +141,14 @@ class UsuarioController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [message(code: 'Usuario.label', default: 'Usuario'), usuarioInstance.id])
+				//recriando a sessão com os dados alterados
+				Usuario usuario_login =  Usuario.findByLoginAndSenha(params.login, params.senha)
+				session.user = usuario_login
+				
 				redirect usuarioInstance
+				
+				
+				
 			}
 			'*'{ respond usuarioInstance, [status: OK] }
 		}

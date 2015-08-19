@@ -54,7 +54,7 @@
 								${fieldValue(bean: usuarioInstance, field: "login")}
 							</g:link></td>
 						<td>
-							${fieldValue(bean: usuarioInstance, field: "senha")}
+<%--							${fieldValue(bean: usuarioInstance, field: "senha")}--%>
 						</td>
 						<td>
 							${fieldValue(bean: usuarioInstance, field: "permissao")}

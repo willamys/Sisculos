@@ -11,8 +11,6 @@ class Curriculo {
 	String formacao
 	String experiencia
 	String datanasc
-	//Endereco endereco
-	//static embedded = ['endereco']
 	String bairro
 	String cidade
 	String complemento

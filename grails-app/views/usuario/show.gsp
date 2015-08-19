@@ -37,7 +37,7 @@
 				<li class="fieldcontain">
 					<span id="senha-label" class="property-label"><g:message code="usuario.senha.label" default="Senha" /></span>
 					
-						<span class="property-value" aria-labelledby="senha-label"><g:fieldValue bean="${usuarioInstance}" field="senha"/></span>
+<%--						<span class="property-value" aria-labelledby="senha-label"><g:fieldValue bean="${usuarioInstance}" field="senha"/></span>--%>
 					
 				</li>
 				</g:if>

@@ -85,35 +85,46 @@ p {
 	<g:if test="${session.user}">
 		<div class="nav" role="navigation">
 			<ul>
-				<li><g:link class="" url="#">Login as <b>${session.user.login}</b></g:link></li>
-				<li><g:link class="exit" controller="usuario" action="logout"><g:message code="Logout" /></g:link></li>
+				<%--				<li><g:link class="" url="#">Logado como <b>${session.user.login}</b></g:link></li>--%>
+				<li><a class="home"
+					href="${createLink(uri: '/usuario/initial')}"><g:message
+							code="default.home.label" /></a></li>
+				<li><g:link class="exit" controller="usuario" action="logout">
+						<g:message code="Logout" />
+					</g:link></li>
 			</ul>
 		</div>
 		<g:if test="${flash.message}">
-            <div class="message" role="status">${flash.message}</div>
-        </g:if>
-	<div id="status" role="complementary">
-		<h1>Menu</h1>
-		<ul>
-<%--			<g:each var="c"--%>
-<%--				in="${grailsApplication.controllerClasses.sort { it.fullName } }">--%>
-<%--				<li class="controller"><g:link--%>
-<%--						controller="${c.logicalPropertyName}">--%>
-<%--						${c.naturalName.replaceAll("Controller", "")}--%>
-<%--					</g:link></li>--%>
-<%--			</g:each>--%>
-		<li class="controller"><a class="" href="${createLink(uri: '/curriculo/index')}">Curriculo</a></li>
-		<li class="controller"><a class="" href="${createLink(uri: '/usuario/index')}">Usuário</a></li>
-		</ul>
-	</div>
-	<div id="page-body" role="main">
-		<h1>Bem Vindos ao Sistema de Currículos do IF</h1>
-		<p>O sistema de cadastro de currículos surge com o intuito de
-			formar um banco de dados com informações dos alunos do IF, com o
-			objetivo de proporcionar às empresas parceiras a possibilidade de
-			seleção de profissionais formados ou em formação.</p>
-	</div>
+			<div class="message" role="status">
+				${flash.message}
+			</div>
+		</g:if>
+		<div id="status" role="complementary">
+			<h1>Menu</h1>
+			<ul>
+				<%--			<g:each var="c"--%>
+				<%--				in="${grailsApplication.controllerClasses.sort { it.fullName } }">--%>
+				<%--				<li class="controller"><g:link--%>
+				<%--						controller="${c.logicalPropertyName}">--%>
+				<%--						${c.naturalName.replaceAll("Controller", "")}--%>
+				<%--					</g:link></li>--%>
+				<%--			</g:each>--%>
+				<li class="controller"><a class=""
+					href="${createLink(uri: '/curriculo/index')}">Curriculo</a></li>
+				<li class="controller"><a class=""
+					href="${createLink(uri: '/usuario/index')}">Usuário</a></li>
+			</ul>
+		</div>
+		<div id="page-body" role="main">
+			<h1>Bem Vindos ao Sistema de Currículos do IF</h1>
+			<p>O sistema de cadastro de currículos surge com o intuito de
+				formar um banco de dados com informações dos alunos do IF, com o
+				objetivo de proporcionar às empresas parceiras a possibilidade de
+				seleção de profissionais formados ou em formação.</p>
+		</div>
 	</g:if>
-	<g:else> ${response.sendRedirect("/user/initial") }</g:else>
+	<g:else>
+		${response.sendRedirect("/user/initial") }
+	</g:else>
 </body>
 </html>
