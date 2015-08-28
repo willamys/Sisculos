@@ -45,6 +45,7 @@ class CurriculoController {
 				params.max = Math.min(max ?: 10, 100)
 				respond Curriculo.list(params), model:[curriculoInstanceCount: Curriculo.count()]
 			}else if(usuario_login.permissao == 1 ){
+				//tras somente o curriculo do usuário logado
 				Curriculo teste = usuario_login ? Curriculo.findByUsuario(usuario_login) : []
 				if(teste != null){
 					respond Curriculo.findAllWhere(usuario: teste.usuario), model:[curriculoInstanceCount: Curriculo.count()]
@@ -63,7 +64,16 @@ class CurriculoController {
 	def create() {
 		Usuario usuario_login = session.user
 		if(usuario_login != null){
-			if(usuario_login.permissao == 0 || usuario_login.permissao == 1){
+			if( usuario_login.permissao == 1){
+				//testar se existe curriculo cadastrado para o usuario
+				Curriculo teste_curriculo_usuario = usuario_login ? Curriculo.findByUsuario(usuario_login) : []
+				if(teste_curriculo_usuario != null){ // se já houver curriculo, não permite cadastrar
+					flash.message = "Desculpe, o usuario ja possui um curriculo cadastrado."
+					redirect(controller:'curriculo',action:'index')
+				}else{
+					respond new Curriculo(params)
+				}
+			}else if(usuario_login.permissao == 0){
 				respond new Curriculo(params)
 			}else{
 				flash.message = "Desculpe, o usuario nao tem permissao."

@@ -1,7 +1,5 @@
 <%@ page import="sisculos.Usuario" %>
 
-
-
 <div class="fieldcontain ${hasErrors(bean: usuarioInstance, field: 'login', 'error')} required">
 	<label for="login">
 		<g:message code="usuario.login.label" default="Login" />

@@ -13,7 +13,7 @@ class UsuarioController {
 	def initial = {}
 
 	def authenticate = {
-		
+
 		if(!(params.equals("") || params == null)){
 			Usuario usuario_login =  Usuario.findByLoginAndSenha(params.login, params.senha)
 			//consulta se o login e senha existem no banco de dados
@@ -121,7 +121,7 @@ class UsuarioController {
 
 	def edit(Usuario usuarioInstance) {
 		respond usuarioInstance
-		
+
 	}
 
 	@Transactional
@@ -142,56 +142,58 @@ class UsuarioController {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [message(code: 'Usuario.label', default: 'Usuario'), usuarioInstance.id])
 				//recriando a sessão com os dados alterados
-				Usuario usuario_login =  Usuario.findByLoginAndSenha(params.login, params.senha)
-				session.user = usuario_login
-				
-				redirect usuarioInstance
-				
-				
-				
+				Usuario usuario_login = session.user //obtendo instancia atual
+				Usuario usuario_update =  Usuario.findByLoginAndSenha(params.login, params.senha)
+				//verifica se ele tá alterando os dados do seu usuario
+				if(usuario_login.login.equals(usuario_update.login)){
+					session.user = usuario_login
+					redirect usuarioInstance
+				}else{
+					redirect usuarioInstance
+				}
 			}
-			'*'{ respond usuarioInstance, [status: OK] }
+				'*'{ respond usuarioInstance, [status: OK] }
+			}
 		}
-	}
 
-	@Transactional
-	def delete(Usuario usuarioInstance) {
-		Usuario usuario_login = session.user
-		if(usuario_login != null){
-			if(usuario_login.permissao == 0 ){
+		@Transactional
+		def delete(Usuario usuarioInstance) {
+			Usuario usuario_login = session.user
+			if(usuario_login != null){
+				if(usuario_login.permissao == 0 ){
 
-				if (usuarioInstance == null) {
-					notFound()
-					return
-				}
-
-				usuarioInstance.delete flush:true
-
-				request.withFormat {
-					form multipartForm {
-						flash.message = message(code: 'default.deleted.message', args: [message(code: 'Usuario.label', default: 'Usuario'), usuarioInstance.id])
-						redirect action:"index", method:"GET"
+					if (usuarioInstance == null) {
+						notFound()
+						return
 					}
-					'*'{ render status: NO_CONTENT }
+
+					usuarioInstance.delete flush:true
+
+					request.withFormat {
+						form multipartForm {
+							flash.message = message(code: 'default.deleted.message', args: [message(code: 'Usuario.label', default: 'Usuario'), usuarioInstance.id])
+							redirect action:"index", method:"GET"
+						}
+						'*'{ render status: NO_CONTENT }
+					}
+				}else{
+					flash.message = "Desculpe, o usuario nao tem permissao."
+					redirect(controller:'usuario',action:'index')
 				}
-			}else{
-				flash.message = "Desculpe, o usuario nao tem permissao."
+			}
+			else{
+				flash.message = "Desculpe, precisa estar autenticado no sistema."
 				redirect(controller:'usuario',action:'index')
 			}
 		}
-		else{
-			flash.message = "Desculpe, precisa estar autenticado no sistema."
-			redirect(controller:'usuario',action:'index')
-		}
-	}
 
-	protected void notFound() {
-		request.withFormat {
-			form multipartForm {
-				flash.message = message(code: 'default.not.found.message', args: [message(code: 'usuario.label', default: 'Usuario'), params.id])
-				redirect action: "index", method: "GET"
+		protected void notFound() {
+			request.withFormat {
+				form multipartForm {
+					flash.message = message(code: 'default.not.found.message', args: [message(code: 'usuario.label', default: 'Usuario'), params.id])
+					redirect action: "index", method: "GET"
+				}
+				'*'{ render status: NOT_FOUND }
 			}
-			'*'{ render status: NOT_FOUND }
 		}
 	}
-}

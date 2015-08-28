@@ -1,14 +1,24 @@
 <%@ page import="sisculos.Usuario" %>
 
+<% Usuario usuario_login = session.user %>
+<g:if test="${(usuario_login != null) && (usuario_login.permissao == 1 || usuario_login.permissao == 2)}">
+<div class="fieldcontain ${hasErrors(bean: usuarioInstance, field: 'login', 'error')} required">
+	<label for="login">
+		<g:message code="usuario.login.label" default="Login" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="login" readonly="readonly" maxlength="15" required="" value="${usuarioInstance?.login}"/>
+</div>
+</g:if>
+<g:else>
 <div class="fieldcontain ${hasErrors(bean: usuarioInstance, field: 'login', 'error')} required">
 	<label for="login">
 		<g:message code="usuario.login.label" default="Login" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="login" maxlength="15" required="" value="${usuarioInstance?.login}"/>
-
 </div>
-
+</g:else>
 <div class="fieldcontain ${hasErrors(bean: usuarioInstance, field: 'senha', 'error')} required">
 	<label for="senha">
 		<g:message code="usuario.senha.label" default="Senha" />
@@ -23,7 +33,7 @@
 		<g:message code="usuario.permissao.label" default="Tipo de Usuário" />
 		<span class="required-indicator">*</span>
 	</label>
-<% Usuario usuario_login = session.user %>
+
 <g:if test="${usuario_login != null && usuario_login.permissao == 1}">
 	<g:select name="permissao" required="" value="${fieldValue(bean: usuarioInstance, field: "permissao")}"
 		from="${['1':'Aluno']}"
