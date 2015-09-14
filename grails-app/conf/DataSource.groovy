@@ -5,8 +5,8 @@ dataSource {
 	 dialect = "org.hibernate.dialect.PostgreSQLDialect"
 	 //driverClassName = "com.mysql.jdbc.Driver" //mysql
 	 driverClassName = "org.postgresql.Driver"
-	 username = "postgres"
-	 password = "constantinopla"
+	 username = "nxulkqxfimqaui"
+	 password = "7IAhsl1mSbxooHxu7xq8d6Z3rt"
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -22,19 +22,19 @@ environments {
     development {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:postgresql://localhost:5432/sisculos?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:postgres://nxulkqxfimqaui:7IAhsl1mSbxooHxu7xq8d6Z3rt@ec2-54-235-147-211.compute-1.amazonaws.com:5432/d20n68kagf4mj3"
         }
     }
     test {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:postgresql://localhost:5432/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:postgres://nxulkqxfimqaui:7IAhsl1mSbxooHxu7xq8d6Z3rt@ec2-54-235-147-211.compute-1.amazonaws.com:5432/d20n68kagf4mj3"
         }
     }
     production {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:postgresql://localhost:5432/sisculos_prod?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:postgres://nxulkqxfimqaui:7IAhsl1mSbxooHxu7xq8d6Z3rt@ec2-54-235-147-211.compute-1.amazonaws.com:5432/d20n68kagf4mj3"
 //            properties {
 //               // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
 //               jmxEnabled = true
